@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RD Calculator | FinanceHub</title>
+
+    <meta name="description" content="Calculate Recurring Deposit (RD) maturity amount instantly with FinanceHub. Get invested amount, interest earned, and year-wise growth.">
+    <meta name="keywords" content="RD calculator, recurring deposit calculator, RD maturity calculator">
+    <meta name="author" content="FinanceHub">
+    <meta property="og:title" content="RD Calculator | FinanceHub">
+    <meta property="og:description" content="Calculate Recurring Deposit (RD) maturity amount instantly with FinanceHub. Get invested amount, interest earned, and year-wise growth.">
+    <meta property="og:type" content="website">
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "RD Calculator",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "All",
+        "description": "Calculate Recurring Deposit (RD) maturity amount instantly with FinanceHub. Get invested amount, interest earned, and year-wise growth."
+    }
+    </script>
+</head>
+<body>
+
+    <!-- =========================================
+         NAVIGATION
+    ========================================== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">Finance<span>Hub</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../calculators.html">Calculators</a></li>
+            </ul>
+            <button id="themeToggle" class="theme-btn" aria-label="Toggle dark mode">🌙</button>
+        </div>
+    </nav>
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+    <main>
+
+        <section class="calculator-page">
+
+            <div class="calculator-header">
+                <div class="calculator-icon">🪙</div>
+                <h1>RD Calculator</h1>
+                <p>Calculate your Recurring Deposit maturity value from your monthly deposits instantly.</p>
+            </div>
+
+            <div class="calculator-container">
+
+                <!-- INPUT PANEL -->
+                <div class="calculator-form glass-card">
+
+                    <div class="form-header">
+                        <h2>🪙 Recurring Deposit Details</h2>
+                        <p>Enter your investment details below</p>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="loanAmount">💰 Monthly Deposit</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">₹</span>
+                            <input type="number" id="loanAmount" placeholder="5000" min="1" step="500" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="interestRate">📈 Annual Interest Rate</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="interestRate" placeholder="6.80" min="0" max="100" step="0.01" autocomplete="off">
+                            <span class="input-suffix">%</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="loanTenure">📅 Tenure</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="loanTenure" placeholder="3" min="0.5" max="10" step="0.5" autocomplete="off">
+                            <span class="input-suffix">Years</span>
+                        </div>
+                    </div>
+
+                    <p id="errorMessage" class="error-message" aria-live="polite"></p>
+
+                    <div class="button-group">
+                        <button id="calculateBtn" class="primary-button" type="button">🧮 Calculate RD</button>
+                        <button id="resetBtn" class="secondary-button" type="button">↻ Reset</button>
+                        <button id="pdfBtn" class="secondary-button" type="button">📄 Download PDF</button>
+                    </div>
+
+                </div>
+
+                <!-- RESULTS PANEL -->
+                <div class="result-card glass-card">
+
+                    <div class="result-header">
+                        <div>
+                            <span class="result-label">📊 Calculation Results</span>
+                            <h2>RD Summary</h2>
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+                        <div class="result-box-icon">💰</div>
+                        <div class="result-box-content">
+                            <span>Invested Amount</span>
+                            <h3 id="emiResult">₹0</h3>
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+                        <div class="result-box-icon">📈</div>
+                        <div class="result-box-content">
+                            <span>Interest Earned</span>
+                            <h3 id="interestResult">₹0</h3>
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+                        <div class="result-box-icon">🏆</div>
+                        <div class="result-box-content">
+                            <span>Maturity Amount</span>
+                            <h3 id="paymentResult">₹0</h3>
+                        </div>
+                    </div>
+
+                    <div class="chart-section">
+                        <div class="chart-header">
+                            <h3>RD Breakdown</h3>
+                            <p>Invested amount vs interest</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="emiChart"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- YEAR-WISE GROWTH -->
+        <section class="schedule-section glass-card">
+            <div class="schedule-header">
+                <div>
+                    <span class="section-label">📅 Growth Plan</span>
+                    <h2>Year-wise Growth</h2>
+                    <p>See how your recurring monthly deposits grow year by year.</p>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Invested Amount</th>
+                            <th>Interest Earned</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ABOUT / INFO -->
+        <section class="info-section glass-card">
+            <h2>About RD Calculator</h2>
+            <p>A Recurring Deposit (RD) lets you invest a fixed amount every month and earn compound interest, similar to an FD but built through regular monthly savings.</p>
+            <p>RDs are a great way to build a savings habit while earning bank-guaranteed returns on a fixed schedule.</p>
+            <div class="info-grid">
+                    <div class="info-item">
+                        <h4>Typical Interest Rate</h4>
+                        <p>RD interest rates are usually similar to FD rates, ranging from 6% to 7.5% p.a.</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Typical Tenure</h4>
+                        <p>RDs generally range from 6 months to 10 years.</p>
+                    </div>
+            </div>
+        </section>
+
+        <!-- RELATED CALCULATORS -->
+        <section class="related-calculators">
+            <h2>Explore Other Calculators</h2>
+            <div class="related-grid">
+                <a href="fd-calculator.html" class="related-card glass-card">
+                    <div class="icon">🏦</div>
+                    <h4>FD Calculator</h4>
+                </a>
+                <a href="sip-calculator.html" class="related-card glass-card">
+                    <div class="icon">📈</div>
+                    <h4>SIP Calculator</h4>
+                </a>
+                <a href="lumpsum-calculator.html" class="related-card glass-card">
+                    <div class="icon">💼</div>
+                    <h4>Lumpsum Calculator</h4>
+                </a>
+                <a href="ppf-calculator.html" class="related-card glass-card">
+                    <div class="icon">🛡️</div>
+                    <h4>PPF Calculator</h4>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>FinanceHub</h3>
+                <p>India's Smart Financial Calculator Platform providing fast, accurate and free financial tools.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <a href="../index.html">Home</a>
+                <a href="../calculators.html">All Calculators</a>
+            </div>
+            <div class="footer-column">
+                <h3>Popular Calculators</h3>
+                <a href="home-loan.html">Home Loan EMI</a>
+                <a href="car-loan.html">Car Loan EMI</a>
+                <a href="sip-calculator.html">SIP Calculator</a>
+                <a href="fd-calculator.html">FD Calculator</a>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <p>📧 support@financehub.com</p>
+                <p>📍 India</p>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 FinanceHub. All Rights Reserved.</div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/rd.js"></script>
+    <script src="../js/charts.js"></script>
+    <script src="../js/pdf.js"></script>
+    <script src="../js/rd-calculator.js"></script>
+    <script src="../js/theme.js"></script>
+</body>
+</html>

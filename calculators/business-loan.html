@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Loan EMI Calculator | FinanceHub</title>
+
+    <meta name="description" content="Calculate Business Loan EMI instantly with FinanceHub. Get monthly EMI, total interest, total payment and detailed amortization schedule.">
+    <meta name="keywords" content="business loan EMI calculator, business loan calculator India, EMI calculator">
+    <meta name="author" content="FinanceHub">
+    <meta property="og:title" content="Business Loan EMI Calculator | FinanceHub">
+    <meta property="og:description" content="Calculate Business Loan EMI instantly with FinanceHub. Get monthly EMI, total interest, total payment and detailed amortization schedule.">
+    <meta property="og:type" content="website">
+
+    <link rel="stylesheet" href="../css/style.css">
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Business Loan EMI Calculator",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "All",
+        "description": "Calculate Business Loan EMI instantly with FinanceHub. Get monthly EMI, total interest, total payment and detailed amortization schedule."
+    }
+    </script>
+</head>
+<body>
+
+    <!-- =========================================
+         NAVIGATION
+    ========================================== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="logo">Finance<span>Hub</span></a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../calculators.html">Calculators</a></li>
+            </ul>
+            <button id="themeToggle" class="theme-btn" aria-label="Toggle dark mode">🌙</button>
+        </div>
+    </nav>
+
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
+    <main>
+
+        <section class="calculator-page">
+
+            <div class="calculator-header">
+                <div class="calculator-icon">🏢</div>
+                <h1>Business Loan EMI Calculator</h1>
+                <p>Calculate your business loan EMI instantly to plan your working capital and cash flow.</p>
+            </div>
+
+            <div class="calculator-container">
+
+                <!-- INPUT PANEL -->
+                <div class="calculator-form glass-card">
+
+                    <div class="form-header">
+                        <h2>🏢 Business Loan Details</h2>
+                        <p>Enter your loan details below</p>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="loanAmount">💰 Loan Amount</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">₹</span>
+                            <input type="number" id="loanAmount" placeholder="1500000" min="1" step="1000" autocomplete="off">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="interestRate">📈 Interest Rate</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="interestRate" placeholder="11.50" min="0" max="100" step="0.01" autocomplete="off">
+                            <span class="input-suffix">%</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="loanTenure">📅 Loan Tenure</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="loanTenure" placeholder="5" min="1" max="10" step="1" autocomplete="off">
+                            <span class="input-suffix">Years</span>
+                        </div>
+                    </div>
+
+                    <p id="errorMessage" class="error-message" aria-live="polite"></p>
+
+                    <div class="button-group">
+                        <button id="calculateBtn" class="primary-button" type="button">🧮 Calculate EMI</button>
+                        <button id="resetBtn" class="secondary-button" type="button">↻ Reset</button>
+                        <button id="pdfBtn" class="secondary-button" type="button">📄 Download PDF</button>
+                    </div>
+
+                </div>
+
+                <!-- RESULTS PANEL -->
+                <div class="result-card glass-card">
+
+                    <div class="result-header">
+                        <div>
+                            <span class="result-label">📊 Calculation Results</span>
+                            <h2>EMI Summary</h2>
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+                        <div class="result-box-icon">💳</div>
+                        <div class="result-box-content">
+                            <span>Monthly EMI</span>
+                            <h3 id="emiResult">₹0</h3>
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+                        <div class="result-box-icon">📈</div>
+                        <div class="result-box-content">
+                            <span>Total Interest</span>
+                            <h3 id="interestResult">₹0</h3>
+                        </div>
+                    </div>
+
+                    <div class="result-box">
+                        <div class="result-box-icon">💰</div>
+                        <div class="result-box-content">
+                            <span>Total Payment</span>
+                            <h3 id="paymentResult">₹0</h3>
+                        </div>
+                    </div>
+
+                    <div class="chart-section">
+                        <div class="chart-header">
+                            <h3>EMI Breakdown</h3>
+                            <p>Principal vs interest</p>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="emiChart"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- AMORTIZATION SCHEDULE -->
+        <section class="schedule-section glass-card">
+            <div class="schedule-header">
+                <div>
+                    <span class="section-label">📅 Repayment Plan</span>
+                    <h2>Amortization Schedule</h2>
+                    <p>View your monthly EMI, principal, interest and remaining loan balance.</p>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>EMI</th>
+                            <th>Principal</th>
+                            <th>Interest</th>
+                            <th>Balance</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scheduleBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ABOUT / INFO -->
+        <section class="info-section glass-card">
+            <h2>About Business Loan EMI Calculator</h2>
+            <p>Business loans provide capital for expansion, equipment purchase, or working capital needs of small and medium enterprises.</p>
+            <p>Use this calculator to compare loan offers and understand the EMI impact on your business cash flow before you borrow.</p>
+            <div class="info-grid">
+                    <div class="info-item">
+                        <h4>Typical Interest Rate</h4>
+                        <p>Business loans generally range from 10% to 18% p.a. depending on the lender and business profile.</p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Typical Tenure</h4>
+                        <p>Business loan tenures usually range from 1 to 10 years.</p>
+                    </div>
+            </div>
+        </section>
+
+        <!-- RELATED CALCULATORS -->
+        <section class="related-calculators">
+            <h2>Explore Other Calculators</h2>
+            <div class="related-grid">
+                <a href="home-loan.html" class="related-card glass-card">
+                    <div class="icon">🏠</div>
+                    <h4>Home Loan EMI</h4>
+                </a>
+                <a href="car-loan.html" class="related-card glass-card">
+                    <div class="icon">🚗</div>
+                    <h4>Car Loan EMI</h4>
+                </a>
+                <a href="bike-loan.html" class="related-card glass-card">
+                    <div class="icon">🏍️</div>
+                    <h4>Bike Loan EMI</h4>
+                </a>
+                <a href="personal-loan.html" class="related-card glass-card">
+                    <div class="icon">💳</div>
+                    <h4>Personal Loan EMI</h4>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- =========================================
+         FOOTER
+    ========================================== -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>FinanceHub</h3>
+                <p>India's Smart Financial Calculator Platform providing fast, accurate and free financial tools.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <a href="../index.html">Home</a>
+                <a href="../calculators.html">All Calculators</a>
+            </div>
+            <div class="footer-column">
+                <h3>Popular Calculators</h3>
+                <a href="home-loan.html">Home Loan EMI</a>
+                <a href="car-loan.html">Car Loan EMI</a>
+                <a href="sip-calculator.html">SIP Calculator</a>
+                <a href="fd-calculator.html">FD Calculator</a>
+            </div>
+            <div class="footer-column">
+                <h3>Contact</h3>
+                <p>📧 support@financehub.com</p>
+                <p>📍 India</p>
+            </div>
+        </div>
+        <div class="footer-bottom">© 2026 FinanceHub. All Rights Reserved.</div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/emi.js"></script>
+    <script src="../js/table.js"></script>
+    <script src="../js/charts.js"></script>
+    <script src="../js/pdf.js"></script>
+    <script src="../js/calculator.js"></script>
+    <script src="../js/theme.js"></script>
+</body>
+</html>
