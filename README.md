@@ -56,7 +56,7 @@ finance-calculator-hub/
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/finance-calculator-hub.git
+git clone https://rajaravindra-git.github.io/FinanceHub/
 ```
 
 ### 2. Open the project
